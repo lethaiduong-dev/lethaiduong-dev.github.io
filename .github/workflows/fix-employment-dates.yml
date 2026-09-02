@@ -1,0 +1,58 @@
+name: Fix portfolio employment dates
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/fix-employment-dates.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    if: github.event.head_commit.message == 'Run one-time portfolio employment date fix'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Correct GongCha and Liuyishou dates
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          old_g = '<div class="expDate">Aug 2021 — Jun 2024</div>'
+          new_g = '<div class="expDate">May 1, 2020 — Dec 31, 2022</div>'
+          old_l = '<div class="expDate">Dec 2024 — Jan 2026</div>'
+          new_l = '<div class="expDate">Jan 1, 2024 — May 31, 2026</div>'
+          assert old_g in s, 'Old GongCha date not found'
+          assert old_l in s, 'Old Liuyishou date not found'
+          s = s.replace(old_g, new_g, 1)
+          s = s.replace(old_l, new_l, 1)
+          assert new_g in s and new_l in s
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Validate JavaScript and diff
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          html = Path('index.html').read_text(encoding='utf-8')
+          scripts = re.findall(r'<script>(.*?)</script>', html, flags=re.S)
+          assert scripts
+          Path('/tmp/portfolio.js').write_text('\n'.join(scripts), encoding='utf-8')
+          assert 'May 1, 2020 — Dec 31, 2022' in html
+          assert 'Jan 1, 2024 — May 31, 2026' in html
+          PY
+          node --check /tmp/portfolio.js
+          git diff --check
+      - name: Commit corrected dates
+        shell: bash
+        run: |
+          git config user.name 'Duong (Tyler) Le'
+          git config user.email '79069641+lethaiduong-dev@users.noreply.github.com'
+          git add index.html
+          git commit -m 'Correct GongCha and Liuyishou employment dates'
+          git push origin HEAD:main
