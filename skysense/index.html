@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="SkySense — a smart navigation drone prototype exploring edge vision AI and safe vehicle collaboration.">
+  <meta name="theme-color" content="#07111b">
+  <title>SkySense — Intelligence Above. Confidence Ahead.</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="nav" id="top">
+    <a class="brand" href="#top" aria-label="SkySense home"><span class="brand-mark" aria-hidden="true"></span>SKYSENSE</a>
+    <button class="menu" aria-expanded="false" aria-controls="nav-links">Menu</button>
+    <nav id="nav-links" aria-label="Primary navigation">
+      <a href="#mission">Mission</a><a href="#architecture">Architecture</a><a href="#vision">Vision AI</a><a href="#vehicle">Vehicle link</a><a href="#roadmap">Roadmap</a>
+      <a class="nav-cta" href="https://github.com/lethaiduong-dev" target="_blank" rel="noreferrer">GitHub ↗</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <img class="hero-bg" src="assets/skysense-hero.jpg" alt="SkySense concept drone scouting a mountain road ahead of a connected vehicle">
+      <div class="hero-shade"></div>
+      <div class="hero-content reveal">
+        <p class="eyebrow"><span class="pulse"></span> SMART NAVIGATION DRONE PROTOTYPE</p>
+        <h1>Intelligence above.<br><em>Confidence ahead.</em></h1>
+        <p class="lede">SkySense explores how an autonomous aerial scout can perceive the road beyond a vehicle's line of sight—and turn that view into useful, safety-gated navigation context.</p>
+        <div class="hero-actions"><a class="button primary" href="#architecture">Explore the system</a><a class="button ghost" href="#roadmap">View prototype plan</a></div>
+      </div>
+      <aside class="telemetry" aria-label="Illustrative prototype telemetry">
+        <div><span>LINK</span><strong class="ok">NOMINAL</strong></div>
+        <div><span>ALTITUDE</span><strong data-count="42">42 m</strong></div>
+        <div><span>VISION</span><strong>30 FPS</strong></div>
+        <div><span>MODE</span><strong>ROUTE SCOUT</strong></div>
+        <small>CONCEPT UI · TARGET VALUES</small>
+      </aside>
+      <div class="scroll-cue">SCROLL <span></span></div>
+    </section>
+
+    <section class="intro section" id="mission">
+      <div class="section-label">01 / MISSION</div>
+      <div class="intro-grid">
+        <h2>A second point of view for the road ahead.</h2>
+        <div><p class="large-copy">SkySense is a research prototype for cooperative perception: a drone maps local terrain, detects hazards and shares verified observations with a smart vehicle. The vehicle remains the decision authority.</p><p class="muted">The first objective is not autonomous driving. It is a dependable aerial sensing layer that can improve situational awareness during low-speed, controlled demonstrations.</p></div>
+      </div>
+      <div class="outcomes">
+        <article><span>01</span><h3>See beyond occlusion</h3><p>Observe stopped traffic, debris, flooding and blind approaches from an elevated viewpoint.</p></article>
+        <article><span>02</span><h3>Map without the cloud</h3><p>Run perception and local planning on the aircraft for low latency and graceful loss of connectivity.</p></article>
+        <article><span>03</span><h3>Inform, never surprise</h3><p>Send confidence-scored events through a safety gateway; the car validates before any response.</p></article>
+      </div>
+    </section>
+
+    <section class="architecture section dark" id="architecture">
+      <div class="section-label">02 / REFERENCE ARCHITECTURE</div>
+      <div class="section-heading"><div><p class="eyebrow">MODULAR BY DESIGN</p><h2>From photons to a trusted route event.</h2></div><p>Two compute domains keep hard real-time flight separate from high-level AI. Select a layer to inspect its responsibility.</p></div>
+      <div class="arch-layout">
+        <div class="arch-diagram" role="img" aria-label="SkySense architecture flows from sensors to edge AI to flight controller and vehicle safety gateway">
+          <button class="node active" data-layer="sense"><small>01</small><b>Sense</b><span>Stereo · RGB · LiDAR · GNSS/IMU</span></button>
+          <i></i><button class="node" data-layer="perceive"><small>02</small><b>Perceive</b><span>Detect · Depth · Segment · Track</span></button>
+          <i></i><button class="node" data-layer="reason"><small>03</small><b>Reason</b><span>Fuse · Map · Plan · Score</span></button>
+          <i></i><button class="node" data-layer="act"><small>04</small><b>Act + Share</b><span>PX4 control · V2X event gateway</span></button>
+        </div>
+        <div class="layer-detail" aria-live="polite">
+          <p class="mono" id="layer-kicker">SENSOR PLANE</p><h3 id="layer-title">Time-aligned, calibrated observations</h3><p id="layer-copy">A synchronized RGB/stereo pair supplies texture and depth; LiDAR or solid-state depth provides geometric redundancy; GNSS/RTK, barometer and IMU anchor every observation in time and space.</p>
+          <ul id="layer-list"><li>Global-shutter stereo camera</li><li>Optional 3D LiDAR or depth camera</li><li>GNSS/RTK + IMU + barometer</li><li>Hardware timestamps and calibration</li></ul>
+        </div>
+      </div>
+      <div class="compute-strip">
+        <div><span>FLIGHT CONTROLLER</span><strong>PX4 on Pixhawk-class hardware</strong><small>Stabilization · estimators · failsafes · return/land</small></div>
+        <div><span>COMPANION COMPUTER</span><strong>Jetson Orin Nano / NX class</strong><small>ROS 2 · TensorRT · mapping · mission logic</small></div>
+        <div><span>MIDDLEWARE</span><strong>uXRCE-DDS + ROS 2 topics</strong><small>Serial/Ethernet transport · versioned interfaces</small></div>
+      </div>
+    </section>
+
+    <section class="vision section" id="vision">
+      <div class="section-label">03 / VISION AI</div>
+      <div class="section-heading"><div><p class="eyebrow">ONBOARD PERCEPTION</p><h2>The vision stack.</h2></div><p>Models are chosen for deterministic edge inference and measurable confidence—not novelty alone.</p></div>
+      <div class="model-grid">
+        <article class="model featured"><div class="model-visual road"><span class="box car">VEHICLE · .96</span><span class="box debris">DEBRIS · .88</span><span class="route"></span></div><p class="mono">OBJECT DETECTION + TRACKING</p><h3>Know what is moving—and what is not.</h3><p>Fine-tuned real-time detection identifies vehicles, people, cones, debris and animals. Multi-object tracking reduces duplicate alerts and estimates motion.</p><ul><li>Candidate: YOLO-family detector exported to ONNX/TensorRT</li><li>Tracker: ByteTrack-class association</li><li>Output: class, pose, velocity, confidence, age</li></ul></article>
+        <article class="model"><div class="icon depth"></div><p class="mono">DEPTH + VIO</p><h3>Locate without perfect GPS.</h3><p>Stereo depth and visual-inertial odometry estimate free space and motion when GNSS is degraded.</p><small>OpenCV · VIO/SLAM · ROS 2 transforms</small></article>
+        <article class="model"><div class="icon segment"></div><p class="mono">SEMANTIC SEGMENTATION</p><h3>Understand traversable space.</h3><p>Pixel-level road, shoulder, water and terrain labels complement object boxes and enable safer route context.</p><small>TensorRT · confidence masks · temporal smoothing</small></article>
+        <article class="model"><div class="icon anomaly"></div><p class="mono">CHANGE + ANOMALY</p><h3>Flag the unexpected.</h3><p>Map-to-live comparison highlights new obstacles while uncertainty logic suppresses weak or stale observations.</p><small>Local map cache · novelty score · human review</small></article>
+      </div>
+    </section>
+
+    <section class="vehicle section dark" id="vehicle">
+      <div class="section-label">04 / SMART VEHICLE INTEGRATION</div>
+      <div class="section-heading"><div><p class="eyebrow">COOPERATIVE, NOT COUPLED</p><h2>A safer path into the car.</h2></div><p>SkySense shares bounded observations through a gateway. It does not write directly to steering, braking or propulsion networks.</p></div>
+      <div class="vehicle-flow">
+        <div class="system drone-system"><span>SKYSENSE AIR</span><b>Hazard event</b><small>type · coordinates · covariance · confidence · timestamp</small></div><div class="link"><span>Wi-Fi / 5G / C-V2X</span></div><div class="system gateway-system"><span>SAFETY GATEWAY</span><b>Authenticate + validate</b><small>freshness · geofence · plausibility · rate limit</small></div><div class="link"><span>ROS 2 / vehicle API</span></div><div class="system car-system"><span>SMART VEHICLE</span><b>Fuse + advise</b><small>display alert · replan proposal · driver confirmation</small></div>
+      </div>
+      <div class="rules">
+        <article><b>01</b><div><h3>Read-first integration</h3><p>Begin with a dashboard visualization or Autoware simulation. No direct actuation during early prototypes.</p></div></article>
+        <article><b>02</b><div><h3>Fail silent</h3><p>If link quality, timestamps or confidence fall outside limits, discard the aerial event and preserve normal vehicle operation.</p></div></article>
+        <article><b>03</b><div><h3>Secure by boundary</h3><p>Mutual authentication, signed messages, least-privilege topics and a segmented gateway protect vehicle networks.</p></div></article>
+      </div>
+    </section>
+
+    <section class="stack section">
+      <div class="section-label">05 / BUILD STACK</div>
+      <div class="section-heading"><div><p class="eyebrow">PROPOSED COMPONENTS</p><h2>Software and hardware blueprint.</h2></div><p>A practical starting stack for a research prototype; final parts depend on payload, endurance and test requirements.</p></div>
+      <div class="stack-table" role="table" aria-label="SkySense proposed technology stack">
+        <div class="stack-row head" role="row"><span>DOMAIN</span><span>PROPOSED BASELINE</span><span>PURPOSE</span></div>
+        <div class="stack-row"><b>Airframe + power</b><span>450–550 mm quad · redundant power sensing · protected props</span><small>Stable payload platform and measured energy budget</small></div>
+        <div class="stack-row"><b>Flight</b><span>Pixhawk-class FCU · PX4 · QGroundControl</span><small>Deterministic control, logging and flight failsafes</small></div>
+        <div class="stack-row"><b>Edge compute</b><span>Jetson Orin Nano/NX class · Ubuntu · JetPack</span><small>GPU-accelerated perception at the edge</small></div>
+        <div class="stack-row"><b>Robotics</b><span>ROS 2 Jazzy/Humble · px4_msgs · uXRCE-DDS</span><small>Typed messages, composition and tooling</small></div>
+        <div class="stack-row"><b>Vision</b><span>PyTorch training · ONNX · TensorRT · OpenCV</span><small>Train, optimize and deploy perception models</small></div>
+        <div class="stack-row"><b>Mapping</b><span>VIO/SLAM · occupancy grid · Nav2/custom planner</span><small>Local pose, free-space map and route planning</small></div>
+        <div class="stack-row"><b>Simulation</b><span>Gazebo + PX4 SITL · CARLA/Autoware bridge</span><small>Reproducible air/road scenarios before hardware tests</small></div>
+        <div class="stack-row"><b>Observability</b><span>rosbag2 · PX4 ULog · Foxglove/PlotJuggler</span><small>Replay, metrics and root-cause analysis</small></div>
+      </div>
+    </section>
+
+    <section class="roadmap section" id="roadmap">
+      <div class="section-label">06 / VALIDATION ROADMAP</div>
+      <div class="roadmap-grid"><div><p class="eyebrow">BUILD EVIDENCE IN LAYERS</p><h2>Prototype responsibly.</h2><p class="large-copy">Each gate must pass measurable safety and performance criteria before the next one begins.</p></div>
+        <ol>
+          <li><span>01</span><div><small>SIMULATION</small><h3>Air stack in SITL</h3><p>PX4 + Gazebo missions, sensor fault injection and deterministic log replay.</p></div></li>
+          <li><span>02</span><div><small>PERCEPTION</small><h3>Recorded-road benchmark</h3><p>Measure precision, recall, localization error, latency and failure cases across weather and lighting.</p></div></li>
+          <li><span>03</span><div><small>CLOSED COURSE</small><h3>Tethered and supervised flight</h3><p>Validate geofence, loss-link, return/land, obstacle clearance and human override.</p></div></li>
+          <li><span>04</span><div><small>VEHICLE-IN-THE-LOOP</small><h3>Advisory-only demonstration</h3><p>Fuse signed aerial events in CARLA/Autoware, then a low-speed test vehicle with safety driver.</p></div></li>
+        </ol>
+      </div>
+      <div class="metrics"><div><strong>&lt;100 ms</strong><span>vision pipeline target</span></div><div><strong>≥95%</strong><span>critical-event recall target*</span></div><div><strong>0</strong><span>direct actuation paths in v1</span></div><div><strong>100%</strong><span>events logged and replayable</span></div></div>
+      <p class="fineprint">*Engineering targets for prototype planning, not achieved or certified performance claims.</p>
+    </section>
+
+    <section class="sources section dark">
+      <div class="section-label">07 / ENGINEERING BASIS</div>
+      <div class="sources-grid"><div><p class="eyebrow">PRIMARY REFERENCES</p><h2>Built on open, inspectable foundations.</h2></div><div class="source-links">
+        <a href="https://docs.px4.io/main/en/ros2/user_guide" target="_blank" rel="noreferrer"><span>PX4</span>ROS 2 integration and uXRCE-DDS ↗</a>
+        <a href="https://docs.ros.org/" target="_blank" rel="noreferrer"><span>ROS 2</span>Robot middleware documentation ↗</a>
+        <a href="https://autoware.org/" target="_blank" rel="noreferrer"><span>AUTOWARE</span>Open-source autonomous driving stack ↗</a>
+        <a href="https://carla.readthedocs.io/" target="_blank" rel="noreferrer"><span>CARLA</span>Autonomous-driving simulation ↗</a>
+        <a href="https://docs.nvidia.com/jetson/" target="_blank" rel="noreferrer"><span>NVIDIA</span>Jetson and TensorRT documentation ↗</a>
+        <a href="https://mavlink.io/en/" target="_blank" rel="noreferrer"><span>MAVLINK</span>Vehicle telemetry protocol ↗</a>
+      </div></div>
+    </section>
+  </main>
+
+  <footer><div class="brand"><span class="brand-mark"></span>SKYSENSE</div><p>Smart navigation drone prototype by <a href="https://github.com/lethaiduong-dev" target="_blank" rel="noreferrer">Duong “Tyler” Le</a>.</p><p>© <span id="year"></span> SkySense · Research concept</p></footer>
+  <script src="script.js"></script>
+</body>
+</html>
